@@ -1,2 +1,2 @@
-# Kol-sLeetSolutions
-A collection of my leetcode solutions.
+# KolsLeetSolutions
+In a sentence this repository is a collection of my leetcode solutions. My goal for this repository is to document my progress through NeetCode.io's Data Structures and Algorithms Roadmap (https://neetcode.io/roadmap). By progressing through this structured list of leetcode problems I hope to strengthen my programming fundamentals, and prepare for technical interviews. As far as some of the standards of this repo: I will post the prompt, an explanation of my solution, my code solution to the prompt, and finally a description of the relative efficiency of said solution. Since the primary goal of this repository is to become a stronger programmer I will be posting my FIRST accepted solution regardless of efficiency, in order to document improvement.
