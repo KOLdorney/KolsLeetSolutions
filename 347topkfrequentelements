@@ -1,0 +1,28 @@
+/*Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.*/
+
+#include <map>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> umap;
+        unordered_map<int,int>::iterator umit;
+        multimap<int, int> valmap;
+        multimap<int, int>::reverse_iterator mit;
+        vector<int> ret;
+        int i;
+
+        for (i = 0; i < nums.size(); i++){
+            umap[nums[i]]++;
+        }
+        for (umit = umap.begin(); umit != umap.end(); umit++){
+            valmap.insert({umit->second, umit->first});
+        }
+        for (mit = valmap.rbegin(), i = 0; mit != valmap.rend(), i < k; mit++, i++){
+            ret.push_back(mit->second);
+        }
+        return ret;
+    }
+};
