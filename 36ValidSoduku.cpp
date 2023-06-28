@@ -6,10 +6,11 @@ Note:
 A Sudoku board (partially filled) could be valid but is not necessarily solvable.
 Only the filled cells need to be validated according to the mentioned rules.*/
 
-//Two solutions today: "The Molases Architect" and "The Sew-From-The-Hip Quilter"
+//Two solutions today: "The Molasses Architect" and "The Sew-From-The-Hip Quilter"
 
-//My first solution "The Molases Architect" was in the 27th percentie for speed and 45th percentile for memory.
+//My first solution "The Molases Architect" was in the 27th percentile for speed and 45th percentile for memory.
 //I decided to use a map because I wanted to track instances of a number.
+//I wrote it with literals(no scaling... thanks leetcode) so both programs are O(1) time complexity, O(n) space complexity
 class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
