@@ -1,0 +1,90 @@
+/* You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
+Evaluate the expression. Return an integer that represents the value of the expression.
+Note that:
+The valid operators are '+', '-', '*', and '/'.
+Each operand may be an integer or another expression.
+The division between two integers always truncates toward zero.
+There will not be any division by zero.
+The input represents a valid arithmetic expression in a reverse polish notation.
+The answer and all the intermediate calculations can be represented in a 32-bit integer. */
+
+//My first solution was one of the slowest (bottom 5%) because I used a try-catch clause to check if the STOI function was ran correctly, then ran a sitch statement.
+//My second solution was 99th percentile in speed and 98th percentile in efficiency (exceptions and c-style variable declaration can slow down your code!).
+//Time and Space complexity for both solutions are both O(n).
+
+//First:
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+        char c;
+        int i, oldTop, newTop;
+        for (i = 0; i < tokens.size(); i++){
+            try{
+                st.push(stoi(tokens[i]));
+            }
+            catch(...){
+                c = tokens[i][0];
+                oldTop = st.top();
+                st.pop();
+                switch (c){
+                    case '+':
+                        newTop = st.top() + oldTop;
+                        break;
+                    case '-':
+                        newTop = st.top() - oldTop;
+                        break;
+                    case '*':
+                        newTop = st.top() * oldTop;
+                        break;
+                    case '/':
+                        newTop = st.top() / oldTop;
+                        break;
+                }
+                st.pop();
+                st.push(newTop);
+            }
+        }
+        return st.top();
+    }
+};
+
+//Second:
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+        for (int i = 0; i < tokens.size(); i++){
+            if (tokens[i] == "+"){
+                int a = st.top(); 
+                st.pop();
+                int b = st.top(); 
+                st.pop();
+                st.push(a+b);
+            }
+            else if (tokens[i] == "-"){
+                int a = st.top(); 
+                st.pop();
+                int b = st.top(); 
+                st.pop();
+                st.push(b-a);
+            }
+            else if (tokens[i] == "*"){
+                int a = st.top();
+                st.pop();
+                int b = st.top(); 
+                st.pop();
+                st.push(a*b);
+            }
+            else if (tokens[i] == "/"){
+                int a = st.top(); 
+                st.pop();
+                int b = st.top(); 
+                st.pop();
+                st.push(b/a);
+            }
+            else st.push(stoi(tokens[i]));
+        }
+        return st.top();
+    }
+};
