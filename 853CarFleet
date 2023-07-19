@@ -6,14 +6,28 @@ The faster car will slow down to match the slower car's speed.
 The distance between these two cars is ignored (i.e., they are assumed to have the same position).
 A car fleet is some non-empty set of cars driving at the same position and same speed. Note that a single car is also a car fleet.
 If a car catches up to a car fleet right at the destination point, it will still be considered as one car fleet.
-Return the number of car fleets that will arrive at the destination. */
+Return the number of car fleets that will arrive at the destination. 
 
-//This is my solution I will come back and edit this
+Constraints:
+n == position.length == speed.length
+1 <= n <= 10^5
+0 < target <= 10^6
+0 <= position[i] < target
+All the values of position are unique.
+0 < speed[i] <= 10^6   */
+
+//Overall the optimal solution for this problem will be O(nlogn) time complexity and O(n) memory complexity. That is because we will need to sort the cars into
+//ascending positional order, to see which cars hold up faster cars behind them, forming a fleet. Both my solutions adhere to this criteria.
+
+//This is my first solution it was in the 40th percentile in both memory efficiency and speed.
+//This solution is wasteful and lazy in a couple of ways. my stack does not need to contain pairs of the slowest times alongside
+//their indices within the vector of car information. Instead, I think I could use the stack with just the traffic-causing cars' times, then return
+//the size of the stack. Also iterating backwards through the cars is not needed since we sorted them (that should cut the data updates in the cars vector).
 class Solution {
 public:
     int carFleet(int target, vector<int>& position, vector<int>& speed) {
         stack<pair<float,int>> s;
-        vector<pait<int, int>> v
+        vector<pair<int, int>> v;
         int i, j, fleetnum;
         float timeTofinish, t2f2;
 
@@ -36,5 +50,25 @@ public:
             s.push({timeTofinish, i});
         }
         return fleetnum;
+    }
+};
+
+//My Second Solution is much sleeker; 98th percentile in speed and 80th percentile in Memory efficiency. I think this is structurally optimal for readability
+//relative to the best solutions in memory (which saw people implementing quicksort as a helper function).
+
+class Solution {
+public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        std::ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+        stack<float> fleetTimes;
+        vector<pair<int, int>> cars;
+        for (int i = 0; i < position.size(); i++) cars.emplace_back(position[i], speed[i]);
+        sort (cars.begin(), cars.end());
+        for (int i = 0; i < position.size(); i++){
+            float timeTofinish = (float)(target - cars[i].first) / (float)cars[i].second;
+            while (!fleetTimes.empty() && timeTofinish >= fleetTimes.top()) fleetTimes.pop();
+            fleetTimes.push(timeTofinish);
+        }
+        return fleetTimes.size();
     }
 };
