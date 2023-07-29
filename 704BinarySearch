@@ -1,0 +1,22 @@
+//This one is kinda in the name ¯\_(ツ)_/¯
+
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int index = nums.size()/2, min = 0, max = nums.size()-1;
+        if (nums[min] == target) return min;
+        if (nums[max] == target) return max;
+        while (max-min > 1){
+            if (nums[index] > target){
+                max = index;
+                index -= (max-min)/2;
+            }
+            else if (nums[index] < target){
+                min = index;
+                index += (max-min)/2;
+            }
+            else return index;
+        }
+        return -1;
+    }
+};
